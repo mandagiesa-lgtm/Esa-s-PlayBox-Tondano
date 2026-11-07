@@ -1,0 +1,240 @@
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#07152d">
+<title>Esa's PlayStation Tondano</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#061226;color:#f4f7ff;font-family:Arial,sans-serif}
+header{padding:22px 18px;background:#0c1d39;border-bottom:1px solid #23416b}
+.logo{font-size:22px;font-weight:900;color:#fff}
+.logo span{color:#19caff}
+.tag{color:#19caff;font-size:11px;letter-spacing:4px;margin-top:6px}
+main{max-width:850px;margin:auto;padding:20px 16px}
+.hero{padding:30px 20px;border-radius:20px;background:linear-gradient(135deg,#153d78,#07152d 75%);border:1px solid #28528c}
+.hero h1{font-size:34px;line-height:1.15;margin:0 0 12px}
+.hero p{color:#c2d2eb;line-height:1.6}
+.pill{display:inline-block;border:1px solid #41618c;border-radius:30px;padding:9px 12px;margin:5px 4px 0 0;font-size:12px}
+h2{font-size:22px;margin:30px 0 15px}
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+.card{background:#0c1d39;border:1px solid #23416b;border-radius:16px;padding:16px}
+.card h3{margin:0 0 7px;color:#7ddcff}
+.card p{margin:6px 0;color:#d3def0;font-size:14px;line-height:1.55}
+.price{font-weight:bold;color:white}
+.note{color:#9fb4d3;font-size:12px}
+.panel{background:#0c1d39;border:1px solid #23416b;border-radius:16px;padding:18px;margin-top:12px}
+label{display:block;font-size:13px;color:#b8cbe5;margin:14px 0 7px}
+input,select{width:100%;padding:13px;border-radius:10px;border:1px solid #345477;background:#07152d;color:white;font-size:15px}
+button{width:100%;border:0;border-radius:12px;padding:15px;background:linear-gradient(90deg,#087bff,#12c8ee);color:white;font-size:16px;font-weight:bold;margin-top:18px}
+button:disabled{opacity:.6}
+.summary{padding:14px;background:#07152d;border-radius:12px;margin-top:14px;line-height:1.8}
+.booking{padding:14px;border:1px solid #29466c;border-radius:12px;margin-top:10px;color:#d6e4f7;font-size:14px}
+.booking strong{color:#7ddcff}
+footer{text-align:center;color:#9db1cf;padding:30px 15px;font-size:13px;line-height:1.8}
+a{color:#62d7ff}
+@media(max-width:480px){.hero h1{font-size:29px}.grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<header>
+ <div class="logo">🎮 ESA'S <span>PLAYBOX</span></div>
+ <div class="tag">TONDANO · PLAY AT HOME</div>
+</header>
+
+<main>
+<section class="hero">
+ <h1>Main Seru,<br>Langsung di Rumah.</h1>
+ <p>Nikmati pengalaman bermain PlayStation di rumah. Pilih paket, tentukan jadwal, lalu booking melalui WhatsApp.</p>
+ <span class="pill">🎮 PS4 & PS5</span>
+ <span class="pill">🛵 Delivery Rp5.000</span>
+ <span class="pill">📍 Tondano</span>
+</section>
+
+<h2>Daftar Paket Harga</h2>
+<div class="grid">
+ <div class="card">
+  <h3>PS4 SMALL</h3><p>24 INCH · 2 STIK</p>
+  <p>3 jam <span class="price">Rp30.000</span><br>
+  6 jam <span class="price">Rp45.000</span><br>
+  12 jam <span class="price">Rp85.000</span><br>
+  1 hari <span class="price">Rp125.000</span><br>
+  Midnight 00.00–08.00 <span class="price">Rp45.000</span></p>
+ </div>
+ <div class="card">
+  <h3>PS5</h3><p>32 INCH · 2 STIK</p>
+  <p>3 jam <span class="price">Rp60.000</span><br>
+  6 jam <span class="price">Rp100.000</span><br>
+  12 jam <span class="price">Rp150.000</span><br>
+  Tambahan <span class="price">Rp20.000/jam</span><br>
+  Midnight 00.00–08.00 <span class="price">Rp85.000</span></p>
+ </div>
+ <div class="card">
+  <h3>PS4 MEDIUM</h3><p>27 INCH · 2 STIK</p>
+  <p>3 jam <span class="price">Rp35.000</span><br>
+  6 jam <span class="price">Rp55.000</span><br>
+  12 jam <span class="price">Rp90.000</span><br>
+  1 hari <span class="price">Rp130.000</span><br>
+  Midnight 00.00–08.00 <span class="price">Rp50.000</span></p>
+ </div>
+ <div class="card">
+  <h3>PS4 BIG</h3><p>32 INCH · 2 STIK</p>
+  <p>2 jam <span class="price">Rp30.000</span><br>
+  4 jam <span class="price">Rp55.000</span><br>
+  6 jam <span class="price">Rp65.000</span><br>
+  1 hari <span class="price">Rp150.000</span><br>
+  Lebih 6 jam: tambah Rp10.000/jam<br>
+  Midnight 00.00–08.00 <span class="price">Rp60.000</span></p>
+ </div>
+</div>
+
+<h2>Booking PlayStation</h2>
+<div class="panel">
+ <form id="bookingForm">
+  <label>Nama lengkap</label>
+  <input id="name" required placeholder="Nama kamu">
+  <label>Nomor WhatsApp</label>
+  <input id="phone" required type="tel" placeholder="08xxxxxxxxxx">
+  <label>Pilih paket</label>
+  <select id="package" required>
+   <option value="">-- Pilih paket --</option>
+   <option value="PS4 SMALL">PS4 Small</option>
+   <option value="PS4 MEDIUM">PS4 Medium</option>
+   <option value="PS4 BIG">PS4 Big</option>
+   <option value="PS5">PS5</option>
+  </select>
+  <label>Tanggal mulai sewa</label>
+  <input id="date" type="date" required>
+  <label>Tanggal selesai sewa</label>
+  <input id="endDate" type="date" required>
+  <label>Jam mulai</label>
+  <input id="start" type="time" required>
+  <label>Jam selesai</label>
+  <input id="end" type="time" required>
+  <label>Alamat pengantaran</label>
+  <input id="address" required placeholder="Alamat lengkap di Tondano">
+  <div class="summary">
+   Biaya delivery: <strong>Rp5.000</strong><br>
+   <span class="note">Harga sewa mengikuti paket dan durasi. Konfirmasi ketersediaan dilakukan oleh admin.</span>
+  </div>
+  <button id="submitBtn" type="submit">BOOKING VIA WHATSAPP</button>
+ </form>
+</div>
+
+<h2>Jadwal Booking Tondano</h2>
+<div class="panel">
+ <p class="note">Jadwal menampilkan booking yang telah disetujui admin. Data pribadi pelanggan tidak ditampilkan.</p>
+ <div id="schedule">Memuat jadwal booking...</div>
+</div>
+
+</main>
+
+<footer>
+ <strong>ESA'S PLAYSTATION TONDANO</strong><br>
+ 📍 Tondano, Sulawesi Utara<br>
+ 🛵 Delivery Rp5.000<br>
+ WhatsApp: <a href="https://wa.me/628967269962">+62 896-7266-9962</a><br>
+ Instagram: @esaplaystation.tondano<br>
+ © 2026 Esa's PlayBox Tondano
+</footer>
+
+<script>
+const SUPABASE_URL = "https://jokoevwsswssanvrdcwi.supabase.co";
+const SUPABASE_ANON_KEY = "TEMPEL_ANON_KEY_DI_SINI";
+const WA_NUMBER = "628967269962";
+let db = null;
+
+if (SUPABASE_ANON_KEY !== "TEMPEL_ANON_KEY_DI_SINI") {
+  db = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+}
+
+const dateInput = document.getElementById("date");
+const endDateInput = document.getElementById("endDate");
+const today = new Date();
+const localToday = new Date(today.getTime()-today.getTimezoneOffset()*60000)
+  .toISOString().slice(0,10);
+dateInput.min = localToday;
+endDateInput.min = localToday;
+dateInput.addEventListener("change",()=>{
+  endDateInput.min = dateInput.value;
+  if(endDateInput.value < dateInput.value) endDateInput.value=dateInput.value;
+});
+
+document.getElementById("bookingForm").addEventListener("submit",async(e)=>{
+ e.preventDefault();
+ const btn=document.getElementById("submitBtn");
+ const data={
+  customer_name:document.getElementById("name").value.trim(),
+  customer_phone:document.getElementById("phone").value.trim(),
+  package_name:document.getElementById("package").value,
+  booking_date:dateInput.value,
+  end_date:endDateInput.value,
+  start_time:document.getElementById("start").value,
+  end_time:document.getElementById("end").value,
+  address:document.getElementById("address").value.trim(),
+  status:"pending"
+ };
+ if(data.end_date < data.booking_date){
+  alert("Tanggal selesai tidak boleh sebelum tanggal mulai.");
+  return;
+ }
+ btn.disabled=true;
+ btn.textContent="Mengirim booking...";
+ let saved=false;
+ if(db){
+  const {error}=await db.from("tondano_bookings").insert([data]);
+  if(error){
+   alert("Booking belum tersimpan ke jadwal online. Pesan WhatsApp tetap bisa dikirim. Admin perlu memeriksa pengaturan database.");
+  }else saved=true;
+ }
+ const message=
+  "Halo Esa's PlayStation Tondano, saya mau booking.%0A%0A"+
+  "Nama: "+encodeURIComponent(data.customer_name)+"%0A"+
+  "No. WA: "+encodeURIComponent(data.customer_phone)+"%0A"+
+  "Paket: "+encodeURIComponent(data.package_name)+"%0A"+
+  "Tanggal: "+data.booking_date+" sampai "+data.end_date+"%0A"+
+  "Jam: "+data.start_time+" - "+data.end_time+"%0A"+
+  "Alamat: "+encodeURIComponent(data.address)+"%0A"+
+  "Delivery: Rp5.000%0A"+
+  "Status penyimpanan: "+(saved?"Terkirim":"Menunggu konfirmasi admin");
+ window.open("https://wa.me/"+WA_NUMBER+"?text="+message,"_blank");
+ btn.disabled=false;
+ btn.textContent="BOOKING VIA WHATSAPP";
+});
+
+async function loadSchedule(){
+ const el=document.getElementById("schedule");
+ if(!db){
+  el.textContent="Jadwal online akan aktif setelah kunci publik Supabase dipasang.";
+  return;
+ }
+ const {data,error}=await db.from("public_tondano_bookings")
+  .select("package_name,booking_date,end_date,start_time,end_time")
+  .order("booking_date",{ascending:true});
+ if(error){
+  el.textContent="Jadwal belum dapat dimuat. Silakan hubungi admin.";
+  return;
+ }
+ if(!data || !data.length){
+  el.textContent="Belum ada booking yang disetujui.";
+  return;
+ }
+ el.innerHTML="";
+ data.forEach(b=>{
+  const item=document.createElement("div");
+  item.className="booking";
+  const title=document.createElement("strong");
+  title.textContent=b.package_name;
+  const detail=document.createElement("div");
+  detail.textContent=b.booking_date+" – "+b.end_date+" | "+b.start_time.slice(0,5)+"–"+b.end_time.slice(0,5)+" · BOOKED";
+  item.append(title,detail);
+  el.appendChild(item);
+ });
+}
+loadSchedule();
+</script>
+</body>
+</html>
